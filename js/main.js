@@ -46,7 +46,7 @@ var generateMockAds = function (quantity) {
     };
 
     ad.author.avatar = 'img/avatars/user0' + i + '.png';
-    ad.location.x = getRandomInt(PIN_WIDTH/2, mapWidth - PIN_WIDTH/2);
+    ad.location.x = getRandomInt(PIN_WIDTH/2, mapWidth - PIN_WIDTH);
     ad.location.y = getRandomInt(AD_MIN_Y, AD_MAX_Y);
     ad.offer.title = 'Объявление N' + i;
     ad.offer.addres = ad.location.x + ', ' + ad.location.y;
