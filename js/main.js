@@ -8,9 +8,9 @@ var AD_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o
 var AD_MIN_PRICE = 1000;
 var AD_MAX_PRICE = 5000;
 var AD_MIN_ROOMS = 1;
-var AD_MAX_ROOMS = 5;
+var AD_MAX_ROOMS = 51;
 var AD_MIN_GUESTS = 1;
-var AD_MAX_GUESTS = 5;
+var AD_MAX_GUESTS = 51;
 var AD_MIN_Y = 130;
 var AD_MAX_Y = 630;
 var AD_TYPES_MAP = {
@@ -87,13 +87,29 @@ var generatePinElements = function (ads) {
   pins.appendChild(fragment);
 };
 
+var guestsMacros = function (number) {
+  return (number === 1 || number !== 11 && number % 10 === 1) ? number + ' гостя' : number + ' гостей';
+};
+
+var roomsMacros = function (number) {
+  if (number === 1 || number !== 11 && number % 10 === 1) {
+    return number + ' комната';
+  }
+  var numberArr = [2, 3, 4];
+  var numberExeption = [12, 13, 14];
+  if (numberArr.includes(number) || numberArr.includes(number % 10) && !numberExeption.includes(number)) {
+    return number + ' комнаты';
+  }
+  return number + ' комнат';
+};
+
 var generateCardElement = function (ad) {
   var card = cardElement.cloneNode(true);
   card.querySelector('.popup__title').textContent = ad.offer.title;
   card.querySelector('.popup__text--address').textContent = ad.offer.addres;
   card.querySelector('.popup__text--price').innerHTML = ad.offer.price + '&#x20bd;<span>/ночь</span>';
   card.querySelector('.popup__type').textContent = AD_TYPES_MAP[ad.offer.type];
-  card.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' + ad.offer.guests + ' гостей';
+  card.querySelector('.popup__text--capacity').textContent = roomsMacros(ad.offer.rooms) + ' для ' + guestsMacros(ad.offer.guests);
   card.querySelector('.popup__text--time').textContent = 'Заезд ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
   var featuresElement = card.querySelector('.popup__features').cloneNode(true);
   card.querySelector('.popup__features').innerHTML = '';
