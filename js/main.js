@@ -9,8 +9,8 @@ var AD_MIN_PRICE = 1000;
 var AD_MAX_PRICE = 5000;
 var AD_MIN_ROOMS = 1;
 var AD_MAX_ROOMS = 51;
-var AD_MIN_GUESTS = 1;
-var AD_MAX_GUESTS = 51;
+var AD_MIN_CAPACITY = 1;
+var AD_MAX_CAPACITY = 51;
 var AD_MIN_Y = 130;
 var AD_MAX_Y = 630;
 var AD_TYPES_MAP = {
@@ -22,6 +22,9 @@ var AD_TYPES_MAP = {
 var MAIN_PIN_WIDTH = 100;
 var MAIN_PIN_HEIGHT = 100;
 var MAIN_PEAK_HEIGHT = 20;
+var NUMBER_ROOMS_NOT_FOR_GUESTS = 100;
+var CAPACITY_NOT_FOR_GUESTS = 0;
+
 
 var map = document.querySelector('.map');
 var pins = document.querySelector('.map__pins');
@@ -71,7 +74,7 @@ var generateMockAds = function (quantity) {
     ad.offer.price = getRandomInt(AD_MIN_PRICE, AD_MAX_PRICE);
     ad.offer.type = AD_TYPES[getRandomInt(0, AD_TYPES.length)];
     ad.offer.rooms = getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS);
-    ad.offer.guests = getRandomInt(AD_MIN_GUESTS, AD_MAX_GUESTS);
+    ad.offer.guests = getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY);
     ad.offer.checkin = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length)];
     ad.offer.checkout = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length)];
     ad.offer.featues = gerRandomFromArray(AD_FEATURES);
@@ -158,8 +161,8 @@ var validateCapacity = function () {
   var roomsVal = parseInt(rooms.value, 10);
   var capacityVal = parseInt(capacity.value, 10);
 
-  if (roomsVal === 100 && capacityVal === 0 ||
-    roomsVal !== 100 && capacityVal !== 0 &&
+  if (roomsVal === NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal === CAPACITY_NOT_FOR_GUESTS ||
+    roomsVal !== NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal !== CAPACITY_NOT_FOR_GUESTS &&
     roomsVal >= capacity.value) {
     capacity.setCustomValidity('');
     return;
