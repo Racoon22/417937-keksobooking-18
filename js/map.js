@@ -7,6 +7,7 @@
     'palace': 'Дворец',
   };
 
+  var pins = document.querySelector('.map__pins');
   var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
 
@@ -20,7 +21,7 @@
       pin.style.top = ads[i].location.y + 'px';
       fragment.appendChild(pin);
     }
-    window.page.pins.appendChild(fragment);
+    pins.appendChild(fragment);
   };
 
   var generateCardElement = function (ad) {

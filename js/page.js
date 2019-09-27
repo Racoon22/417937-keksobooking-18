@@ -4,12 +4,11 @@
   var MAIN_PIN_HEIGHT = 100;
   var MAIN_PEAK_HEIGHT = 20;
 
-  var pins = document.querySelector('.map__pins');
   var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adAddress = adForm.querySelector('#address');
   var filterForm = document.querySelector('.map__filters');
-  var mainPin = pins.querySelector('.map__pin--main');
+  var mainPin = document.querySelector('.map__pin--main');
 
   var getAddress = function () {
     var peak = map.classList.contains('map--faded') ? 0 : MAIN_PEAK_HEIGHT;
@@ -74,8 +73,6 @@
 
   window.page = {
     map: map,
-    pins: pins,
-    mainPin: mainPin,
     adForm: adForm,
     adAddress: adAddress,
     activate: activate,
