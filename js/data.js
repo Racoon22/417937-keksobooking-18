@@ -14,7 +14,7 @@
   var AD_MIN_Y = 130;
   var AD_MAX_Y = 630;
 
-  var mapWidth = window.page.map.offsetWidth;
+  var mapWidth = document.querySelector('.map').offsetWidth;
 
   var generateMockAds = function (quantity) {
     var result = [];
@@ -27,19 +27,19 @@
       };
 
       ad.author.avatar = 'img/avatars/user0' + i + '.png';
-      ad.location.x = window.util.getRandomInt(-PIN_WIDTH / 2, mapWidth - PIN_WIDTH / 2);
-      ad.location.y = window.util.getRandomInt(AD_MIN_Y, AD_MAX_Y);
+      ad.location.x = window.utils.getRandomInt(-PIN_WIDTH / 2, mapWidth - PIN_WIDTH / 2);
+      ad.location.y = window.utils.getRandomInt(AD_MIN_Y, AD_MAX_Y);
       ad.offer.title = 'Объявление N' + i;
       ad.offer.addres = ad.location.x + ', ' + ad.location.y;
-      ad.offer.price = window.util.getRandomInt(AD_MIN_PRICE, AD_MAX_PRICE);
-      ad.offer.type = AD_TYPES[window.util.getRandomInt(0, AD_TYPES.length)];
-      ad.offer.rooms = window.util.getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS);
-      ad.offer.guests = window.util.getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY);
-      ad.offer.checkin = AD_CHECK_TIME[window.util.getRandomInt(0, AD_CHECK_TIME.length)];
-      ad.offer.checkout = AD_CHECK_TIME[window.util.getRandomInt(0, AD_CHECK_TIME.length)];
-      ad.offer.featues = window.util.gerRandomFromArray(AD_FEATURES);
+      ad.offer.price = window.utils.getRandomInt(AD_MIN_PRICE, AD_MAX_PRICE - 1);
+      ad.offer.type = AD_TYPES[window.utils.getRandomInt(0, AD_TYPES.length - 1)];
+      ad.offer.rooms = window.utils.getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS - 1);
+      ad.offer.guests = window.utils.getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY - 1);
+      ad.offer.checkin = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
+      ad.offer.checkout = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
+      ad.offer.featues = window.utils.gerRandomFromArray(AD_FEATURES);
       ad.offer.description = 'Описание объявления N' + i;
-      ad.offer.photos = window.util.gerRandomFromArray(AD_PHOTOS);
+      ad.offer.photos = window.utils.gerRandomFromArray(AD_PHOTOS);
 
       result.push(ad);
     }
