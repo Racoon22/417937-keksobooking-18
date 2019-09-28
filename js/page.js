@@ -72,7 +72,6 @@
   deactivate();
 
   window.page = {
-    map: map,
     adForm: adForm,
     adAddress: adAddress,
     activate: activate,

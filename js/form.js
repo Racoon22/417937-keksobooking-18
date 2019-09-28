@@ -22,6 +22,11 @@
   var capacity = window.page.adForm.querySelector('#capacity');
   var rooms = window.page.adForm.querySelector('#room_number');
   var adFormSubmit = window.page.adForm.querySelector('.ad-form__submit');
+  var timein = window.page.adForm.querySelector('#timein');
+  var timeout = window.page.adForm.querySelector('#timeout');
+  var title = window.page.adForm.querySelector('#title');
+  var price = window.page.adForm.querySelector('#price');
+  var type = window.page.adForm.querySelector('#type');
 
   rooms.addEventListener('change', function () {
     validateCapacity();
