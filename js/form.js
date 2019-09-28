@@ -1,11 +1,27 @@
 'use strict';
 (function () {
-
-  var NUMBER_ROOMS_NOT_FOR_GUESTS = 100;
-  var CAPACITY_NOT_FOR_GUESTS = 0;
+  var CAPACITY_MAP = {
+    '1': {
+      guests: [1],
+      errorText: 'Для 1 гостя'
+    },
+    '2': {
+      guests: [1, 2],
+      errorText: 'Для 1 или 2 гостей'
+    },
+    '3': {
+      guests: [1, 2, 3],
+      errorText: 'Для 1, 2 или 3 гостей'
+    },
+    '100': {
+      guests: [0],
+      errorText: 'Не для гостей'
+    },
+  };
 
   var capacity = window.page.adForm.querySelector('#capacity');
   var rooms = window.page.adForm.querySelector('#room_number');
+  var adFormSubmit = window.page.adForm.querySelector('.ad-form__submit');
 
   rooms.addEventListener('change', function () {
     validateCapacity();
@@ -15,25 +31,57 @@
     validateCapacity();
   });
 
+  timein.addEventListener('change', function () {
+    timeout.value = timein.value;
+  });
+
+  timeout.addEventListener('change', function () {
+    timein.value = timeout.value;
+  });
+
   var validateCapacity = function () {
     var roomsVal = parseInt(rooms.value, 10);
     var capacityVal = parseInt(capacity.value, 10);
-
-    if (roomsVal === NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal === CAPACITY_NOT_FOR_GUESTS ||
-      roomsVal !== NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal !== CAPACITY_NOT_FOR_GUESTS &&
-      roomsVal >= capacity.value) {
+    if (!CAPACITY_MAP[roomsVal].guests.includes(capacityVal)) {
+      capacity.setCustomValidity(CAPACITY_MAP[roomsVal].errorText);
+    } else {
       capacity.setCustomValidity('');
-      return;
     }
-
-    capacity.setCustomValidity('Количество гостей должно быть меньше или равно количеству комнат. 100 комнат не для гостей');
   };
-  window.page.adForm.addEventListener('submit', function (evt) {
+
+  var validatePrice = function () {
+    var priceVal = parseInt(price.value, 10);
+    var minPrice = window.map.AD_TYPES_MAP[type.value].minPrice;
+    price.setAttribute('placeholder', minPrice);
+    if (price.validity.valueMissing) {
+      price.setCustomValidity('Обязятельное поле');
+    } else if (priceVal >= minPrice) {
+      price.setCustomValidity('');
+    } else {
+      price.setCustomValidity('Минимальная цена за ночь ' + minPrice);
+    }
+  };
+
+  var validateTitle = function () {
+    if (title.validity.valueMissing) {
+      title.setCustomValidity('Обязятельное поле');
+    } else if (title.validity.tooShort) {
+      title.setCustomValidity('Минимальная длина — 30 символов');
+    } else if (title.validity.tooLong) {
+      title.setCustomValidity('Минимальная длина — 100 символов');
+    } else {
+      title.setCustomValidity('');
+    }
+  };
+
+  adFormSubmit.addEventListener('click', function (evt) {
     evt.preventDefault();
     validateCapacity();
-    if (evt.currentTarget.checkValidity()) {
-      evt.currentTarget.submit();
+    validateTitle();
+    validatePrice();
+    if (window.page.adForm.checkValidity()) {
+      window.page.adForm.submit();
     }
-    evt.currentTarget.reportValidity();
+    window.page.adForm.reportValidity();
   });
 }());

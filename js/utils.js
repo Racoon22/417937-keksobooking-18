@@ -3,16 +3,17 @@
   var getRandomInt = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
+    return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
   var gerRandomFromArray = function (array) {
+    var cloneArray = array.slice();
     var result = [];
-    var quantity = getRandomInt(1, array.length + 1);
+    var quantity = getRandomInt(1, cloneArray.length);
     for (var i = 0; i < quantity; i++) {
-      var number = getRandomInt(0, array.length);
-      result.push(array[number]);
-      array.splice(number, 1);
+      var number = getRandomInt(0, cloneArray.length - 1);
+      result.push(cloneArray[number]);
+      cloneArray.splice(number, 1);
     }
     return result;
   };
@@ -33,7 +34,7 @@
     return number + ' комнат';
   };
 
-  window.util = {
+  window.utils = {
     getRandomInt: getRandomInt,
     gerRandomFromArray: gerRandomFromArray,
     guestsMacros: guestsMacros,
