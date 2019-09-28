@@ -34,10 +34,26 @@ var AD_TYPES_MAP = {
 var MAIN_PIN_WIDTH = 100;
 var MAIN_PIN_HEIGHT = 100;
 var MAIN_PEAK_HEIGHT = 20;
-var NUMBER_ROOMS_NOT_FOR_GUESTS = 100;
-var CAPACITY_NOT_FOR_GUESTS = 0;
 
-var ESC_KEYCODE = 27;
+var CAPACITY_MAP = {
+  '1': {
+    guests: [1],
+    errorText: 'Для 1 гостя'
+  },
+  '2': {
+    guests: [1, 2],
+    errorText: 'Для 1 или 2 гостей'
+  },
+  '3': {
+    guests: [1, 2, 3],
+    errorText: 'Для 1, 2 или 3 гостей'
+  },
+  '100': {
+    guests: [0],
+    errorText: 'Не для гостей'
+  },
+};
+
 var ENTER_KEYCODE = 13;
 
 var map = document.querySelector('.map');
@@ -94,8 +110,8 @@ var generateMockAds = function (quantity) {
     ad.offer.type = AD_TYPES[getRandomInt(0, AD_TYPES.length)];
     ad.offer.rooms = getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS);
     ad.offer.guests = getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY);
-    ad.offer.checkin = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length)];
-    ad.offer.checkout = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length)];
+    ad.offer.checkin = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length - 1)];
+    ad.offer.checkout = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length - 1)];
     ad.offer.featues = gerRandomFromArray(AD_FEATURES);
     ad.offer.description = 'Описание объявления N' + i;
 
@@ -165,7 +181,7 @@ var generateCardElement = function (ad) {
   card.querySelector('.popup__title').textContent = ad.offer.title;
   card.querySelector('.popup__text--address').textContent = ad.offer.addres;
   card.querySelector('.popup__text--price').innerHTML = ad.offer.price + '&#x20bd;<span>/ночь</span>';
-  card.querySelector('.popup__type').textContent = AD_TYPES_MAP[ad.offer.type];
+  card.querySelector('.popup__type').textContent = AD_TYPES[ad.offer.type];
   card.querySelector('.popup__text--capacity').textContent = roomsMacros(ad.offer.rooms) + ' для ' + guestsMacros(ad.offer.guests);
   card.querySelector('.popup__text--time').textContent = 'Заезд ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
   var featuresElement = card.querySelector('.popup__features').cloneNode(true);
@@ -203,15 +219,11 @@ generateCardElement(ads[0]);
 var validateCapacity = function () {
   var roomsVal = parseInt(rooms.value, 10);
   var capacityVal = parseInt(capacity.value, 10);
-
-  if (roomsVal === NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal === CAPACITY_NOT_FOR_GUESTS ||
-    roomsVal !== NUMBER_ROOMS_NOT_FOR_GUESTS && capacityVal !== CAPACITY_NOT_FOR_GUESTS &&
-    roomsVal >= capacity.value) {
+  if (!CAPACITY_MAP[roomsVal].guests.includes(capacityVal)) {
+    capacity.setCustomValidity(CAPACITY_MAP[roomsVal].errorText);
+  } else {
     capacity.setCustomValidity('');
-    return;
   }
-
-  capacity.setCustomValidity('Количество гостей должно быть меньше или равно количеству комнат. 100 комнат не для гостей');
 };
 
 var validatePrice = function () {
@@ -287,7 +299,6 @@ mainPin.addEventListener('mousedown', function () {
 
 adForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
-  validateTitle();
   validatePrice();
   validateCapacity();
   if (evt.currentTarget.checkValidity()) {
