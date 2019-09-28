@@ -107,7 +107,7 @@ var generateMockAds = function (quantity) {
     ad.offer.title = 'Объявление N' + i;
     ad.offer.addres = ad.location.x + ', ' + ad.location.y;
     ad.offer.price = getRandomInt(AD_MIN_PRICE, AD_MAX_PRICE);
-    ad.offer.type = AD_TYPES[getRandomInt(0, AD_TYPES.length)];
+    ad.offer.type = AD_TYPES[getRandomInt(0, AD_TYPES.length - 1)];
     ad.offer.rooms = getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS);
     ad.offer.guests = getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY);
     ad.offer.checkin = AD_CHECK_TIME[getRandomInt(0, AD_CHECK_TIME.length - 1)];
@@ -181,7 +181,7 @@ var generateCardElement = function (ad) {
   card.querySelector('.popup__title').textContent = ad.offer.title;
   card.querySelector('.popup__text--address').textContent = ad.offer.addres;
   card.querySelector('.popup__text--price').innerHTML = ad.offer.price + '&#x20bd;<span>/ночь</span>';
-  card.querySelector('.popup__type').textContent = AD_TYPES[ad.offer.type];
+  card.querySelector('.popup__type').textContent = AD_TYPES_MAP[ad.offer.type].name;
   card.querySelector('.popup__text--capacity').textContent = roomsMacros(ad.offer.rooms) + ' для ' + guestsMacros(ad.offer.guests);
   card.querySelector('.popup__text--time').textContent = 'Заезд ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
   var featuresElement = card.querySelector('.popup__features').cloneNode(true);
@@ -213,8 +213,6 @@ var getAddress = function () {
 };
 
 var ads = generateMockAds(8);
-generatePinElements(ads);
-generateCardElement(ads[0]);
 
 var validateCapacity = function () {
   var roomsVal = parseInt(rooms.value, 10);
@@ -270,6 +268,8 @@ var activatePage = function () {
   var featuresElement = filterForm.querySelector('.map__features');
   featuresElement.disabled = false;
   adAddress.value = getAddress();
+  generatePinElements(ads);
+  generateCardElement(ads[0]);
 };
 
 var deactivatePage = function () {
