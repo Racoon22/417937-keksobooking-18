@@ -63,6 +63,7 @@ var cardElement = document.querySelector('#card').content.querySelector('.map__c
 var mapWidth = map.offsetWidth;
 var mainPin = pins.querySelector('.map__pin--main');
 var adForm = document.querySelector('.ad-form');
+var adFormSubmit = adForm.querySelector('.ad-form__submit');
 var title = adForm.querySelector('#title');
 var price = adForm.querySelector('#price');
 var timein = adForm.querySelector('#timein');
@@ -269,7 +270,6 @@ var activatePage = function () {
   featuresElement.disabled = false;
   adAddress.value = getAddress();
   generatePinElements(ads);
-  generateCardElement(ads[0]);
 };
 
 var deactivatePage = function () {
@@ -297,26 +297,15 @@ mainPin.addEventListener('mousedown', function () {
   activatePage();
 });
 
-adForm.addEventListener('submit', function (evt) {
+adFormSubmit.addEventListener('click', function (evt) {
   evt.preventDefault();
   validatePrice();
-  validateCapacity();
-  if (evt.currentTarget.checkValidity()) {
-    evt.currentTarget.submit();
-  }
-  evt.currentTarget.reportValidity();
-});
-
-title.addEventListener('invalid', function () {
   validateTitle();
-});
-
-price.addEventListener('invalid', function () {
-  validatePrice();
-});
-
-type.addEventListener('invalid', function () {
-  validatePrice();
+  validateCapacity();
+  if (adForm.checkValidity()) {
+    adForm.submit();
+  }
+  adForm.reportValidity();
 });
 
 rooms.addEventListener('change', function () {
