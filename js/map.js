@@ -74,8 +74,8 @@
     var featuresElement = card.querySelector('.popup__features').cloneNode(true);
     card.querySelector('.popup__features').innerHTML = '';
 
-    for (var i = 0; i < ad.offer.featues.length; i++) {
-      var feature = featuresElement.querySelector('.popup__feature--' + ad.offer.featues[i]);
+    for (var i = 0; i < ad.offer.features.length; i++) {
+      var feature = featuresElement.querySelector('.popup__feature--' + ad.offer.features[i]);
       card.querySelector('.popup__features').appendChild(feature);
     }
 

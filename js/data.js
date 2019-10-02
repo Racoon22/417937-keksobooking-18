@@ -37,7 +37,7 @@
       ad.offer.guests = window.utils.getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY - 1);
       ad.offer.checkin = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
       ad.offer.checkout = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
-      ad.offer.featues = window.utils.gerRandomFromArray(AD_FEATURES);
+      ad.offer.features = window.utils.gerRandomFromArray(AD_FEATURES);
       ad.offer.description = 'Описание объявления N' + i;
       ad.offer.photos = window.utils.gerRandomFromArray(AD_PHOTOS);
 

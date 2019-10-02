@@ -15,6 +15,14 @@
 
   var isPageActive = false;
 
+  var errorTemplate = document.querySelector('#error').content;
+  var mainElement = document.querySelector('main');
+
+  var showError = function (message) {
+    errorTemplate.querySelector('.error__message').textContent = message;
+    mainElement.insertBefore(errorTemplate, mainElement.firstChild);
+  };
+
   var getAddress = function () {
     var peak = window.map.map.classList.contains('map--faded') ? 0 : MAIN_PEAK_HEIGHT;
     var x = Math.round(parseInt(mainPin.style.left, 10) + MAIN_PIN_HEIGHT / 2);
@@ -41,7 +49,6 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = false;
     adAddress.value = getAddress();
-    window.map.generatePinElements(window.data.ads);
     isPageActive = true;
   };
 
@@ -69,7 +76,6 @@
     if (!isPageActive) {
       window.page.activate();
     }
-
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
@@ -124,8 +130,9 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-    };
 
+      window.xhr.load(window.map.generatePinElements, showError);
+    };
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
