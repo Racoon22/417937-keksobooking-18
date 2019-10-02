@@ -15,12 +15,17 @@
 
   var isPageActive = false;
 
-  var errorTemplate = document.querySelector('#error').content;
+  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var mainElement = document.querySelector('main');
+  var errorButton = errorTemplate.querySelector('.error__button');
 
   var showError = function (message) {
     errorTemplate.querySelector('.error__message').textContent = message;
     mainElement.insertBefore(errorTemplate, mainElement.firstChild);
+    errorButton.addEventListener('click', function () {
+      errorTemplate.remove();
+    })
+
   };
 
   var getAddress = function () {
@@ -130,7 +135,7 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-
+      window.map.removePins();
       window.xhr.load(window.map.generatePinElements, showError);
     };
 
@@ -152,4 +157,5 @@
     activate: activate,
     deactivate: deactivate
   };
+
 })();

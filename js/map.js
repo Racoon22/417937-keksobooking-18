@@ -25,6 +25,13 @@
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
   var map = document.querySelector('.map');
 
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin[type=button]');
+    for (let i = 0; i < pins.length; i++) {
+      pins[i].remove();
+    }
+  };
+
   var refreshPopap = function (ad) {
     var popup = document.querySelector('.popup');
     if (popup) {
@@ -108,6 +115,7 @@
   window.map = {
     map: map,
     AD_TYPES_MAP: AD_TYPES_MAP,
-    generatePinElements: generatePinElements
+    generatePinElements: generatePinElements,
+    removePins: removePins
   };
 })();
