@@ -1,3 +1,4 @@
+'use strict';
 (function () {
   var GET_WIZARDS_URL = 'https://js.dump.academy/keksobooking/data';
 
@@ -10,7 +11,7 @@
       if (xhr.status === 200) {
         onSuccess(xhr.response);
       } else {
-        onError('Упс! Что-то пошло не так!')
+        onError('Упс! Что-то пошло не так!');
       }
     });
 

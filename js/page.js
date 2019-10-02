@@ -24,7 +24,7 @@
     mainElement.insertBefore(errorTemplate, mainElement.firstChild);
     errorButton.addEventListener('click', function () {
       errorTemplate.remove();
-    })
+    });
 
   };
 
@@ -131,7 +131,7 @@
       if (dragged) {
         var onClickPreventDefault = function (evt) {
           evt.preventDefault();
-          mainPin.removeEventListener('click', onClickPreventDefault)
+          mainPin.removeEventListener('click', onClickPreventDefault);
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
