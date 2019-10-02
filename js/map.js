@@ -27,7 +27,7 @@
 
   var removePins = function () {
     var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
-    for (var i = 0; i < pins.length; i++) {
+    for (var i = 0; i < pinsButtons.length; i++) {
       pinsButtons[i].remove();
     }
   };
