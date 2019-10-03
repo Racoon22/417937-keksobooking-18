@@ -136,7 +136,7 @@
         mainPin.addEventListener('click', onClickPreventDefault);
       }
       window.map.removePins();
-      window.xhr.load(window.map.generatePinElements, showError);
+      window.backend.load(window.map.generatePinElements, showError);
     };
 
     document.addEventListener('mousemove', onMouseMove);

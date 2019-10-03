@@ -29,7 +29,7 @@
     xhr.send();
   };
 
-  window.xhr = {
+  window.backend = {
     load: load
   };
 })();

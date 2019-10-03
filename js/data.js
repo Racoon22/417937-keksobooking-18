@@ -16,35 +16,7 @@
 
   var mapWidth = document.querySelector('.map').offsetWidth;
 
-  var generateMockAds = function (quantity) {
-    var result = [];
 
-    for (var i = 1; i <= quantity; i++) {
-      var ad = {
-        author: {},
-        offer: {},
-        location: {}
-      };
-
-      ad.author.avatar = 'img/avatars/user0' + i + '.png';
-      ad.location.x = window.utils.getRandomInt(-PIN_WIDTH / 2, mapWidth - PIN_WIDTH / 2);
-      ad.location.y = window.utils.getRandomInt(AD_MIN_Y, AD_MAX_Y);
-      ad.offer.title = 'Объявление N' + i;
-      ad.offer.addres = ad.location.x + ', ' + ad.location.y;
-      ad.offer.price = window.utils.getRandomInt(AD_MIN_PRICE, AD_MAX_PRICE - 1);
-      ad.offer.type = AD_TYPES[window.utils.getRandomInt(0, AD_TYPES.length - 1)];
-      ad.offer.rooms = window.utils.getRandomInt(AD_MIN_ROOMS, AD_MAX_ROOMS - 1);
-      ad.offer.guests = window.utils.getRandomInt(AD_MIN_CAPACITY, AD_MAX_CAPACITY - 1);
-      ad.offer.checkin = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
-      ad.offer.checkout = AD_CHECK_TIME[window.utils.getRandomInt(0, AD_CHECK_TIME.length - 1)];
-      ad.offer.features = window.utils.gerRandomFromArray(AD_FEATURES);
-      ad.offer.description = 'Описание объявления N' + i;
-      ad.offer.photos = window.utils.gerRandomFromArray(AD_PHOTOS);
-
-      result.push(ad);
-    }
-    return result;
-  };
 
   var ads = generateMockAds(8);
   window.data = {
