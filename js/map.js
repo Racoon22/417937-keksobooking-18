@@ -25,6 +25,13 @@
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
   var map = document.querySelector('.map');
 
+  var removePins = function () {
+    var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
+    for (var i = 0; i < pinsButtons.length; i++) {
+      pinsButtons[i].remove();
+    }
+  };
+
   var refreshPopap = function (ad) {
     var popup = document.querySelector('.popup');
     if (popup) {
@@ -74,8 +81,8 @@
     var featuresElement = card.querySelector('.popup__features').cloneNode(true);
     card.querySelector('.popup__features').innerHTML = '';
 
-    for (var i = 0; i < ad.offer.featues.length; i++) {
-      var feature = featuresElement.querySelector('.popup__feature--' + ad.offer.featues[i]);
+    for (var i = 0; i < ad.offer.features.length; i++) {
+      var feature = featuresElement.querySelector('.popup__feature--' + ad.offer.features[i]);
       card.querySelector('.popup__features').appendChild(feature);
     }
 
@@ -108,6 +115,7 @@
   window.map = {
     map: map,
     AD_TYPES_MAP: AD_TYPES_MAP,
-    generatePinElements: generatePinElements
+    generatePinElements: generatePinElements,
+    removePins: removePins
   };
 })();
