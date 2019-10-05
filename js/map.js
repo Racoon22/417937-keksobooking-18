@@ -100,7 +100,7 @@
   };
 
   document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === ENTER_KEYCODE && evt.target.matches('.popup__close')) {
+    if (evt.keyCode === window.utils.ENTER_KEYCODE && evt.target.matches('.popup__close')) {
       document.querySelector('.map__card').remove();
     }
   });

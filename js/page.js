@@ -162,8 +162,8 @@
       document.removeEventListener('mouseup', onMouseUp);
       adAddress.value = getAddress();
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
+        var onClickPreventDefault = function (clickEvt) {
+          clickEvt.preventDefault();
           mainPin.removeEventListener('click', onClickPreventDefault);
         };
         mainPin.addEventListener('click', onClickPreventDefault);

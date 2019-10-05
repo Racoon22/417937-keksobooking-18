@@ -31,7 +31,7 @@
   };
 
   var save = function (data, onSuccess, onError) {
-    var xhr = new XMLHttpRequest;
+    var xhr = new XMLHttpRequest();
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
         onSuccess();

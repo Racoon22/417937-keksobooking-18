@@ -85,7 +85,7 @@
     validateTitle();
     validatePrice();
     if (window.page.adForm.checkValidity()) {
-      window.backend.save(new FormData(window.page.adForm), window.page.showSuccess, window.page.showError)
+      window.backend.save(new FormData(window.page.adForm), window.page.showSuccess, window.page.showError);
     }
     window.page.adForm.reportValidity();
   });
