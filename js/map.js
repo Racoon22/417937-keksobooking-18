@@ -1,6 +1,5 @@
 'use strict';
 (function () {
-  var ENTER_KEYCODE = 13;
   var AD_TYPES_MAP = {
     'flat': {
       'name': 'Квартира',
@@ -48,7 +47,7 @@
 
   var onPinKeydown = function (pin, ad) {
     pin.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === ENTER_KEYCODE) {
+      if (evt.keyCode === window.ENTER_KEYCODE) {
         refreshPopap(ad);
       }
     });

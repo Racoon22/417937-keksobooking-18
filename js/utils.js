@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  window.ENTER_KEYCODE = 13;
+  window.ESC_KEYCODE = 27;
+
   var getRandomInt = function (min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
