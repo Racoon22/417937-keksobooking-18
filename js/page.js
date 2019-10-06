@@ -106,6 +106,7 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = true;
     window.map.removePins();
+    adForm.reset();
     setPinBaseCoordinates();
     adAddress.value = getAddress();
   };
