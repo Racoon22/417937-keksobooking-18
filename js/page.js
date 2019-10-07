@@ -3,6 +3,8 @@
   var MAIN_PIN_WIDTH = 65;
   var MAIN_PIN_HEIGHT = 65;
   var MAIN_PEAK_HEIGHT = 20;
+  var MAIN_PIN_BASE_TOP = 375;
+  var MAIN_PIN_BASE_LEFT = 570;
   var MIN_PIN_Y = 130;
   var MAX_PIN_Y = 630;
   var MIX_PIN_X = 0;
@@ -13,19 +15,42 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapWidth = document.querySelector('.map').offsetWidth;
 
-  var isPageActive = false;
+  window.isPageActive = false;
 
-  var errorTemplate = document.querySelector('#error').content.querySelector('.error');
   var mainElement = document.querySelector('main');
-  var errorButton = errorTemplate.querySelector('.error__button');
 
   var showError = function (message) {
-    errorTemplate.querySelector('.error__message').textContent = message;
-    mainElement.insertBefore(errorTemplate, mainElement.firstChild);
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorTemplate.querySelector('.error__button');
+    errorElement.querySelector('.error__message').textContent = message;
+    mainElement.insertBefore(errorElement, mainElement.firstChild);
     errorButton.addEventListener('click', function () {
-      errorTemplate.remove();
+      errorElement.remove();
     });
+    errorElement.addEventListener('click', function () {
+      errorElement.remove();
+    });
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        errorElement.remove();
+      }
+    });
+  };
 
+  var showSuccess = function () {
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successElement = successTemplate.cloneNode(true);
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === window.ESC_KEYCODE) {
+        successElement.remove();
+      }
+    });
+    successElement.addEventListener('click', function () {
+      successElement.remove();
+    });
+    mainElement.insertBefore(successElement, mainElement.firstChild);
+    window.page.deactivate();
   };
 
   var getAddress = function () {
@@ -33,6 +58,11 @@
     var x = Math.round(parseInt(mainPin.style.left, 10) + MAIN_PIN_HEIGHT / 2);
     var y = Math.round(parseInt(mainPin.style.top, 10) + MAIN_PIN_WIDTH / 2 + peak);
     return x + ', ' + y;
+  };
+
+  var setPinBaseCoordinates = function () {
+    mainPin.style.left = MAIN_PIN_BASE_LEFT + 'px';
+    mainPin.style.top = MAIN_PIN_BASE_TOP + 'px';
   };
 
   var activate = function () {
@@ -54,7 +84,7 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = false;
     adAddress.value = getAddress();
-    isPageActive = true;
+    window.isPageActive = true;
   };
 
   var deactivate = function () {
@@ -75,10 +105,14 @@
 
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = true;
+    window.map.removePins();
+    adForm.reset();
+    setPinBaseCoordinates();
+    adAddress.value = getAddress();
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
-    if (!isPageActive) {
+    if (!window.isPageActive) {
       window.page.activate();
     }
     var startCoords = {
@@ -129,8 +163,8 @@
       document.removeEventListener('mouseup', onMouseUp);
       adAddress.value = getAddress();
       if (dragged) {
-        var onClickPreventDefault = function (evt) {
-          evt.preventDefault();
+        var onClickPreventDefault = function (clickEvt) {
+          clickEvt.preventDefault();
           mainPin.removeEventListener('click', onClickPreventDefault);
         };
         mainPin.addEventListener('click', onClickPreventDefault);
@@ -154,6 +188,8 @@
   window.page = {
     adForm: adForm,
     adAddress: adAddress,
+    showError: showError,
+    showSuccess: showSuccess,
     activate: activate,
     deactivate: deactivate
   };
