@@ -19,13 +19,10 @@
     },
   };
 
-  var FILTER_TYPE_ANY = 'any';
-
   var pins = document.querySelector('.map__pins');
   var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
   var map = document.querySelector('.map');
-  var type = document.querySelector('#housing-type');
 
   var removePins = function () {
     var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
@@ -57,14 +54,9 @@
   };
 
   var generatePins = function (ads) {
-    var filteredAds = filterPins(ads);
+    window.ads = ads;
+    var filteredAds = window.filterAds(ads);
     renderPinElements(filteredAds);
-  };
-
-  var filterPins = function (ads) {
-    return ads.filter(function (ad) {
-      return type.value === FILTER_TYPE_ANY ? true : ad.offer.type === type.value;
-    }).slice(0, 5);
   };
 
   var renderPinElements = function (ads) {
@@ -129,6 +121,7 @@
     map: map,
     AD_TYPES_MAP: AD_TYPES_MAP,
     generatePins: generatePins,
-    removePins: removePins
+    removePins: removePins,
+    renderPinElements: renderPinElements
   };
 })();
