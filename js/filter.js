@@ -1,3 +1,4 @@
+'use strict';
 (function () {
   var FILTER_TYPE_ANY = 'any';
   var type = document.querySelector('#housing-type');
