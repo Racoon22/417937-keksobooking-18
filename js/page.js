@@ -170,7 +170,7 @@
         mainPin.addEventListener('click', onClickPreventDefault);
       }
       window.map.removePins();
-      window.backend.load(window.map.generatePinElements, showError);
+      window.backend.load(window.map.generatePins, showError);
     };
 
     document.addEventListener('mousemove', onMouseMove);
