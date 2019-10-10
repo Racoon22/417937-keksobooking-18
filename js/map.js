@@ -53,7 +53,13 @@
     });
   };
 
-  var generatePinElements = function (ads) {
+  var generatePins = function (ads) {
+    window.ads = ads;
+    var filteredAds = window.filterAds(ads);
+    renderPinElements(filteredAds);
+  };
+
+  var renderPinElements = function (ads) {
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {
       var ad = ads[i];
@@ -114,7 +120,8 @@
   window.map = {
     map: map,
     AD_TYPES_MAP: AD_TYPES_MAP,
-    generatePinElements: generatePinElements,
-    removePins: removePins
+    generatePins: generatePins,
+    removePins: removePins,
+    renderPinElements: renderPinElements
   };
 })();
