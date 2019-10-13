@@ -2,6 +2,7 @@
 (function () {
   window.ENTER_KEYCODE = 13;
   window.ESC_KEYCODE = 27;
+  var DEBOUNCE_INTERVAL = 500; // ms
 
   var getRandomInt = function (min, max) {
     min = Math.ceil(min);
@@ -37,11 +38,22 @@
     return number + ' комнат';
   };
 
+  var debounce = function (cb) {
+    var lastTimeout = null;
+    if (lastTimeout) {
+      window.clearTimeout(lastTimeout);
+    }
+    lastTimeout = window.setTimeout(function () {
+      cb();
+    }, DEBOUNCE_INTERVAL);
+  };
+
   window.utils = {
     getRandomInt: getRandomInt,
     gerRandomFromArray: gerRandomFromArray,
     guestsMacros: guestsMacros,
-    roomsMacros: roomsMacros
+    roomsMacros: roomsMacros,
+    debounce: debounce
   };
 
 })();
