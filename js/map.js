@@ -1,5 +1,6 @@
 'use strict';
 (function () {
+  var AMOUNT_PINS_ON_MAP = 5;
   var AD_TYPES_MAP = {
     'flat': {
       'name': 'Квартира',
@@ -60,6 +61,7 @@
   };
 
   var renderPinElements = function (ads) {
+    ads = ads.slice(0, AMOUNT_PINS_ON_MAP);
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < ads.length; i++) {
       var ad = ads[i];
