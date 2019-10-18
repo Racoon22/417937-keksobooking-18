@@ -39,7 +39,7 @@
     }
     var activePin = document.querySelector('.map__pin--active');
     if (activePin) {
-      activePin.classList.remove('map__pin--active')
+      activePin.classList.remove('map__pin--active');
     }
   };
 

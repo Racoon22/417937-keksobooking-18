@@ -40,7 +40,7 @@
     avatarPreview.src = DEFAULT_AVATAR_SRC;
     var image = adPreview.querySelector('img');
     if (image) {
-      image.remove()
+      image.remove();
     }
   };
 
@@ -142,6 +142,6 @@
 
   window.form = {
     resetPreview: resetPreview
-  }
+  };
 
 }());
