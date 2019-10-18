@@ -32,29 +32,34 @@
     }
   };
 
-  var refreshPopap = function (ad) {
+  var removePopup = function () {
     var popup = document.querySelector('.popup');
     if (popup) {
       popup.remove();
     }
+  };
+
+  var refreshPopup = function (ad) {
+    removePopup();
     generateCardElement(ad);
   };
 
   var onPinClick = function (pin, ad) {
     pin.addEventListener('click', function () {
-      refreshPopap(ad);
+      refreshPopup(ad);
     });
   };
 
   var onPinKeydown = function (pin, ad) {
     pin.addEventListener('keydown', function (evt) {
       if (evt.keyCode === window.ENTER_KEYCODE) {
-        refreshPopap(ad);
+        refreshPopup(ad);
       }
     });
   };
 
   var generatePins = function (ads) {
+    removePopup();
     window.ads = ads;
     var filteredAds = window.filterAds(ads);
     renderPinElements(filteredAds);
@@ -124,6 +129,7 @@
     AD_TYPES_MAP: AD_TYPES_MAP,
     generatePins: generatePins,
     removePins: removePins,
+    removePopup: removePopup,
     renderPinElements: renderPinElements
   };
 })();

@@ -1,5 +1,8 @@
 'use strict';
 (function () {
+  var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+  var DEFAULT_AVATAR_SRC = 'img/muffin-grey.svg';
+  var MAX_PRICE = 1000000;
   var CAPACITY_MAP = {
     '1': {
       guests: [1],
@@ -19,14 +22,58 @@
     },
   };
 
-  var capacity = window.page.adForm.querySelector('#capacity');
-  var rooms = window.page.adForm.querySelector('#room_number');
-  var adFormSubmit = window.page.adForm.querySelector('.ad-form__submit');
-  var timein = window.page.adForm.querySelector('#timein');
-  var timeout = window.page.adForm.querySelector('#timeout');
-  var title = window.page.adForm.querySelector('#title');
-  var price = window.page.adForm.querySelector('#price');
-  var type = window.page.adForm.querySelector('#type');
+  var adForm = document.querySelector('.ad-form');
+  var avatarPreview = adForm.querySelector('.ad-form-header__preview img');
+  var adPreview = adForm.querySelector('.ad-form__photo');
+  var avatar = adForm.querySelector('#avatar');
+  var capacity = adForm.querySelector('#capacity');
+  var rooms = adForm.querySelector('#room_number');
+  var adFormSubmit = adForm.querySelector('.ad-form__submit');
+  var timein = adForm.querySelector('#timein');
+  var timeout = adForm.querySelector('#timeout');
+  var title = adForm.querySelector('#title');
+  var price = adForm.querySelector('#price');
+  var type = adForm.querySelector('#type');
+  var images = adForm.querySelector('#images');
+
+  var resetPreview = function () {
+    avatarPreview.src = DEFAULT_AVATAR_SRC;
+    var image = adPreview.querySelector('img');
+    if (image) {
+      image.remove()
+    }
+  };
+
+
+  var showPreview = function (input, preview) {
+    var file = input.files[0];
+    var fileName = file.name.toLocaleLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  };
+
+  avatar.addEventListener('change', function () {
+    showPreview(avatar, avatarPreview);
+  });
+
+  images.addEventListener('change', function () {
+    var preview = document.createElement('img');
+    preview.style.width = '100%';
+    adPreview.appendChild(preview);
+    showPreview(images, preview);
+  });
 
   rooms.addEventListener('change', function () {
     validateCapacity();
@@ -60,6 +107,8 @@
     price.setAttribute('placeholder', minPrice);
     if (price.validity.valueMissing) {
       price.setCustomValidity('Обязятельное поле');
+    } else if (priceVal > MAX_PRICE) {
+      price.setCustomValidity('Максимальная цена за ночь ' + MAX_PRICE);
     } else if (priceVal >= minPrice) {
       price.setCustomValidity('');
     } else {
@@ -84,9 +133,15 @@
     validateCapacity();
     validateTitle();
     validatePrice();
-    if (window.page.adForm.checkValidity()) {
-      window.backend.save(new FormData(window.page.adForm), window.page.showSuccess, window.page.showError);
+    if (adForm.checkValidity()) {
+      window.backend.save(new FormData(adForm), window.page.showSuccess, window.page.showError);
+      resetPreview();
     }
-    window.page.adForm.reportValidity();
+    adForm.reportValidity();
   });
+
+  window.form = {
+    resetPreview: resetPreview
+  }
+
 }());

@@ -109,6 +109,7 @@
     adForm.reset();
     setPinBaseCoordinates();
     adAddress.value = getAddress();
+    window.isPageActive = false;
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
@@ -134,10 +135,10 @@
       };
 
       var offsetX;
-      if (mainPin.offsetLeft - shift.x <= MIX_PIN_X) {
-        offsetX = MIX_PIN_X;
-      } else if (mainPin.offsetLeft - shift.x + MAIN_PIN_WIDTH > mapWidth) {
-        offsetX = mapWidth - MAIN_PIN_WIDTH;
+      if (mainPin.offsetLeft - shift.x - MAIN_PIN_WIDTH / 2 <= MIX_PIN_X) {
+        offsetX = MIX_PIN_X - MAIN_PIN_WIDTH / 2;
+      } else if (mainPin.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2 > mapWidth) {
+        offsetX = mapWidth - MAIN_PIN_WIDTH / 2;
       } else {
         offsetX = mainPin.offsetLeft - shift.x;
       }
@@ -170,6 +171,7 @@
         mainPin.addEventListener('click', onClickPreventDefault);
       }
       window.map.removePins();
+      window.map.removePopup();
       window.backend.load(window.map.generatePins, showError);
     };
 
@@ -185,8 +187,13 @@
 
   deactivate();
 
+  adForm.addEventListener('reset', function () {
+    deactivate();
+    filterForm.reset();
+    window.form.resetPreview();
+  });
+
   window.page = {
-    adForm: adForm,
     adAddress: adAddress,
     showError: showError,
     showSuccess: showSuccess,
