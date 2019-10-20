@@ -5,8 +5,8 @@
   var MAIN_PEAK_HEIGHT = 20;
   var MAIN_PIN_BASE_TOP = 375;
   var MAIN_PIN_BASE_LEFT = 570;
-  var MIN_PIN_Y = 130;
-  var MAX_PIN_Y = 630;
+  var MIN_PIN_Y = 77;
+  var MAX_PIN_Y = 662;
   var MIX_PIN_X = 0;
 
   var adForm = document.querySelector('.ad-form');
@@ -70,7 +70,7 @@
     document.addEventListener('keydown', onSuccessPopupKeydown);
     successElement.addEventListener('click', onSuccessPopupClick);
     mainElement.insertBefore(successElement, mainElement.firstChild);
-    window.page.deactivate();
+    deactivate();
   };
 
   var showError = function (message) {
@@ -212,11 +212,14 @@
 
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
-      activate();
+      if (!window.isPageActive) {
+        activate();
+      }
+      window.map.removePins();
+      window.map.removePopup();
+      window.backend.load(window.map.generatePins, showError);
     }
   });
-
-  deactivate();
 
   adForm.addEventListener('reset', function () {
     deactivate();
@@ -231,5 +234,7 @@
     activate: activate,
     deactivate: deactivate
   };
+
+  deactivate();
 
 })();
