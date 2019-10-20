@@ -24,13 +24,14 @@
   var guestsElement = filterElement.querySelector('#housing-guests');
 
   var updatePins = function () {
+    window.map.removePopup();
     window.map.removePins();
     window.map.renderPinElements(filterAds(window.ads));
   };
 
   var filterAds = function (ads) {
     return ads.filter(function (ad) {
-      return (filterByType(ad.offer.type) && filterByRooms(ad.offer.rooms) && filterByGuests(ad.offer.guests)
+      return (ad.offer && filterByType(ad.offer.type) && filterByRooms(ad.offer.rooms) && filterByGuests(ad.offer.guests)
         && filterByPrice(ad.offer.price) && filterByFeatures(ad.offer.features));
     });
   };
