@@ -38,14 +38,25 @@
     });
   };
 
+
+  var removeSuccessPopup = function () {
+    var popup = document.querySelector('main .success');
+    if (popup) {
+      popup.remove();
+    }
+    document.removeEventListener('keydown', closeSuccessPopupKeydownHandler)
+  };
+
+  var closeSuccessPopupKeydownHandler = function (evt) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
+      removeSuccessPopup();
+    }
+  };
+
   var showSuccess = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
-        successElement.remove();
-      }
-    });
+    document.addEventListener('keydown', closeSuccessPopupKeydownHandler);
     successElement.addEventListener('click', function () {
       successElement.remove();
     });

@@ -27,9 +27,9 @@
 
   var removePins = function () {
     var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
-    for (var i = 0; i < pinsButtons.length; i++) {
-      pinsButtons[i].remove();
-    }
+    pinsButtons.forEach(function (it) {
+      it.remove();
+    });
   };
 
   var removePopup = function () {
@@ -73,8 +73,7 @@
   var renderPinElements = function (ads) {
     ads = ads.slice(0, AMOUNT_PINS_ON_MAP);
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < ads.length; i++) {
-      var ad = ads[i];
+    ads.forEach(function (ad) {
       var pin = pinElement.cloneNode(true);
       pin.querySelector('img').src = ad.author.avatar;
       pin.querySelector('img').alt = ad.offer.title;
@@ -83,7 +82,7 @@
       onPinClick(pin, ad);
       onPinKeydown(pin, ad);
       fragment.appendChild(pin);
-    }
+    });
     pins.appendChild(fragment);
   };
 
@@ -110,21 +109,20 @@
     if (ad.offer.features) {
       var featuresElement = card.querySelector('.popup__features').cloneNode(true);
       card.querySelector('.popup__features').innerHTML = '';
-      for (var i = 0; i < ad.offer.features.length; i++) {
-        var feature = featuresElement.querySelector('.popup__feature--' + ad.offer.features[i]);
+      ad.offer.features.forEach(function (it) {
+        var feature = featuresElement.querySelector('.popup__feature--' + it);
         card.querySelector('.popup__features').appendChild(feature);
-      }
+      });
     }
 
     if (ad.offer.photos) {
-      var photoElement = card.querySelector('.popup__photos img').cloneNode();
+      var photoTemplate = card.querySelector('.popup__photos img').cloneNode();
       card.querySelector('.popup__photos').innerHTML = '';
-
-      for (i = 0; i < ad.offer.photos.length; i++) {
-        var photo = photoElement.cloneNode();
-        photo.src = ad.offer.photos[i];
-        card.querySelector('.popup__photos').appendChild(photo);
-      }
+      ad.offer.photos.forEach(function (it) {
+        var photoElement = photoTemplate.cloneNode();
+        photoElement.src = it;
+        card.querySelector('.popup__photos').appendChild(photoElement);
+      });
     }
 
     if (ad.offer.description) {
