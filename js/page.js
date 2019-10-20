@@ -19,49 +19,69 @@
 
   var mainElement = document.querySelector('main');
 
-  var showError = function (message) {
-    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
-    var errorElement = errorTemplate.cloneNode(true);
-    var errorButton = errorTemplate.querySelector('.error__button');
-    errorElement.querySelector('.error__message').textContent = message;
-    mainElement.insertBefore(errorElement, mainElement.firstChild);
-    errorButton.addEventListener('click', function () {
-      errorElement.remove();
-    });
-    errorElement.addEventListener('click', function () {
-      errorElement.remove();
-    });
-    document.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ESC_KEYCODE) {
-        errorElement.remove();
-      }
-    });
-  };
-
-
   var removeSuccessPopup = function () {
-    var popup = document.querySelector('main .success');
+    var popup = mainElement.querySelector('.success');
     if (popup) {
       popup.remove();
     }
-    document.removeEventListener('keydown', closeSuccessPopupKeydownHandler)
   };
 
-  var closeSuccessPopupKeydownHandler = function (evt) {
+  var onSuccessPopupKeydown = function (evt) {
     if (evt.keyCode === window.ESC_KEYCODE) {
       removeSuccessPopup();
     }
+    document.removeEventListener('keydown', onSuccessPopupKeydown);
+  };
+
+  var onSuccessPopupClick = function () {
+    removeSuccessPopup();
+    document.removeEventListener('keydown', onSuccessPopupClick);
+  };
+
+  var removeErrorPopup = function () {
+    var popup = mainElement.querySelector('.error');
+    if (popup) {
+      var errorButton = popup.querySelector('.error__button');
+      errorButton.removeEventListener('click', onErrorButtonClick);
+      popup.remove();
+    }
+    document.removeEventListener('keydown', onErrorPopupKeydown);
+    document.removeEventListener('keydown', onErrorPopupClick);
+  };
+
+  var onErrorPopupKeydown = function (evt) {
+    if (evt.keyCode === window.ESC_KEYCODE) {
+      removeErrorPopup();
+    }
+  };
+
+  var onErrorPopupClick = function () {
+    removeErrorPopup();
+  };
+
+  var onErrorButtonClick = function () {
+    removeErrorPopup();
+    document.removeEventListener('keydown', onErrorButtonClick);
   };
 
   var showSuccess = function () {
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successElement = successTemplate.cloneNode(true);
-    document.addEventListener('keydown', closeSuccessPopupKeydownHandler);
-    successElement.addEventListener('click', function () {
-      successElement.remove();
-    });
+    document.addEventListener('keydown', onSuccessPopupKeydown);
+    successElement.addEventListener('click', onSuccessPopupClick);
     mainElement.insertBefore(successElement, mainElement.firstChild);
     window.page.deactivate();
+  };
+
+  var showError = function (message) {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorElement = errorTemplate.cloneNode(true);
+    var errorButton = errorElement.querySelector('.error__button');
+    errorElement.querySelector('.error__message').textContent = message;
+    mainElement.insertBefore(errorElement, mainElement.firstChild);
+    errorButton.addEventListener('click', onErrorButtonClick);
+    errorElement.addEventListener('click', onErrorPopupClick);
+    document.addEventListener('keydown', onErrorPopupKeydown);
   };
 
   var getAddress = function () {
@@ -125,7 +145,7 @@
 
   mainPin.addEventListener('mousedown', function (evt) {
     if (!window.isPageActive) {
-      window.page.activate();
+      activate();
     }
     var startCoords = {
       x: evt.clientX,

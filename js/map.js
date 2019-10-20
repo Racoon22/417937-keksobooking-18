@@ -136,23 +136,22 @@
     document.querySelector('.map__filters-container').appendChild(card);
   };
 
-  document.addEventListener('keydown', function (evt) {
-    if (evt.keyCode === window.utils.ENTER_KEYCODE && evt.target.matches('.popup__close')) {
-      document.querySelector('.map__card').remove();
+  var onPopupCloseClick = function (evt) {
+    if (evt.target.matches('.popup__close')) {
+      removePopup();
+      document.removeEventListener('keydown', onPopupCloseClick);
     }
-  });
+  };
 
-  document.addEventListener('keydown', function (evt) {
+  var onPopupKeydown = function (evt) {
     if (evt.keyCode === window.ESC_KEYCODE) {
       removePopup();
+      document.removeEventListener('keydown', onPopupKeydown);
     }
-  });
+  };
 
-  document.addEventListener('click', function (evt) {
-    if (evt.target.matches('.popup__close')) {
-      document.querySelector('.map__card').remove();
-    }
-  });
+  document.addEventListener('keydown', onPopupKeydown);
+  document.addEventListener('click', onPopupCloseClick);
 
   window.map = {
     map: map,
