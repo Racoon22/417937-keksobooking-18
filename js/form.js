@@ -45,7 +45,6 @@
     }
   };
 
-
   var showPreview = function (input, preview) {
     var file = input.files[0];
     var fileName = file.name.toLocaleLowerCase();
@@ -83,6 +82,10 @@
     showPreview(images, preview);
   });
 
+  type.addEventListener('change', function () {
+    price.setAttribute('placeholder', window.map.AD_TYPES[type.value].minPrice);
+  });
+
   rooms.addEventListener('change', function () {
     validateCapacity();
   });
@@ -112,7 +115,6 @@
   var validatePrice = function () {
     var priceVal = parseInt(price.value, 10);
     var minPrice = window.map.AD_TYPES[type.value].minPrice;
-    price.setAttribute('placeholder', minPrice);
     if (price.validity.valueMissing) {
       price.setCustomValidity('Обязятельное поле');
     } else if (priceVal > MAX_PRICE) {
