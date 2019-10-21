@@ -9,6 +9,7 @@
   var MAX_PIN_Y = 662;
   var MIX_PIN_X = 0;
 
+  var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var adAddress = adForm.querySelector('#address');
   var filterForm = document.querySelector('.map__filters');
@@ -86,7 +87,7 @@
   };
 
   var getAddress = function () {
-    var peak = window.map.map.classList.contains('map--faded') ? 0 : MAIN_PEAK_HEIGHT;
+    var peak = map.classList.contains('map--faded') ? 0 : MAIN_PEAK_HEIGHT;
     var x = Math.round(parseInt(mainPin.style.left, 10) + MAIN_PIN_HEIGHT / 2);
     var y = Math.round(parseInt(mainPin.style.top, 10) + MAIN_PIN_WIDTH / 2 + peak);
     return x + ', ' + y;
@@ -98,7 +99,7 @@
   };
 
   var activate = function () {
-    window.map.map.classList.remove('map--faded');
+    map.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     var formElements = adForm.querySelectorAll('.ad-form__element');
     formElements.forEach(function (item) {
@@ -120,7 +121,7 @@
   };
 
   var deactivate = function () {
-    window.map.map.classList.add('map--faded');
+    map.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
     var formElements = adForm.querySelectorAll('.ad-form__element');
     formElements.forEach(function (item) {

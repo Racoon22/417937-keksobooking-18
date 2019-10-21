@@ -23,6 +23,7 @@
   };
 
   var adForm = document.querySelector('.ad-form');
+  var adPhotos = document.querySelector('.ad-form__photo-container');
   var avatarPreview = adForm.querySelector('.ad-form-header__preview img');
   var adPreview = adForm.querySelector('.ad-form__photo');
   var avatar = adForm.querySelector('#avatar');
@@ -69,9 +70,15 @@
   });
 
   images.addEventListener('change', function () {
-    var preview = document.createElement('img');
-    preview.style.width = '100%';
-    adPreview.appendChild(preview);
+    if (adPreview.querySelector('img')) {
+      var adPhoto = adPreview.cloneNode(true);
+      var preview = adPhoto.querySelector('img');
+      adPhotos.appendChild(adPhoto);
+    } else {
+      var preview = document.createElement('img');
+      preview.style.width = '100%';
+      adPreview.appendChild(preview);
+    }
     showPreview(images, preview);
   });
 
@@ -103,7 +110,7 @@
 
   var validatePrice = function () {
     var priceVal = parseInt(price.value, 10);
-    var minPrice = window.map.AD_TYPES_MAP[type.value].minPrice;
+    var minPrice = window.map.AD_TYPES[type.value].minPrice;
     price.setAttribute('placeholder', minPrice);
     if (price.validity.valueMissing) {
       price.setCustomValidity('Обязятельное поле');

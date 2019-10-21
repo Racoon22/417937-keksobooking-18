@@ -1,7 +1,7 @@
 'use strict';
 (function () {
   var AMOUNT_PINS_ON_MAP = 5;
-  var AD_TYPES_MAP = {
+  var AD_TYPES = {
     'flat': {
       'name': 'Квартира',
       'minPrice': 1000
@@ -23,7 +23,6 @@
   var pins = document.querySelector('.map__pins');
   var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
-  var map = document.querySelector('.map');
 
   var removePins = function () {
     var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
@@ -98,7 +97,7 @@
       card.querySelector('.popup__text--price').innerHTML = ad.offer.price + '&#x20bd;<span>/ночь</span>';
     }
     if (ad.offer.type) {
-      card.querySelector('.popup__type').textContent = AD_TYPES_MAP[ad.offer.type].name;
+      card.querySelector('.popup__type').textContent = AD_TYPES[ad.offer.type].name;
     }
     if (ad.offer.rooms && ad.offer.guests) {
       card.querySelector('.popup__text--capacity').textContent = window.utils.roomsMacros(ad.offer.rooms) + ' для ' + window.utils.guestsMacros(ad.offer.guests);
@@ -153,8 +152,7 @@
   };
 
   window.map = {
-    map: map,
-    AD_TYPES_MAP: AD_TYPES_MAP,
+    AD_TYPES: AD_TYPES,
     generatePins: generatePins,
     removePins: removePins,
     removePopup: removePopup,
