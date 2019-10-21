@@ -1,7 +1,7 @@
 'use strict';
 (function () {
-  window.ENTER_KEYCODE = 13;
-  window.ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+  var ESC_KEYCODE = 27;
   var DEBOUNCE_INTERVAL = 500; // ms
 
   var getRandomInt = function (min, max) {
@@ -49,6 +49,8 @@
   };
 
   window.utils = {
+    ENTER_KEYCODE: ENTER_KEYCODE,
+    ESC_KEYCODE: ESC_KEYCODE,
     getRandomInt: getRandomInt,
     gerRandomFromArray: gerRandomFromArray,
     guestsMacros: guestsMacros,

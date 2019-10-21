@@ -57,7 +57,7 @@
 
   var onPinKeydown = function (pin, ad) {
     pin.addEventListener('keydown', function (evt) {
-      if (evt.keyCode === window.ENTER_KEYCODE) {
+      if (evt.keyCode === window.utils.ENTER_KEYCODE) {
         refreshPopup(ad);
       }
     });
@@ -65,7 +65,7 @@
 
   var generatePins = function (ads) {
     removePopup();
-    window.ads = ads;
+    window.map.ads = ads;
     var filteredAds = window.filterAds(ads);
     renderPinElements(filteredAds);
   };
@@ -133,6 +133,8 @@
       card.querySelector('.popup__avatar').src = ad.author.avatar;
     }
 
+    document.addEventListener('keydown', onPopupKeydown);
+    document.addEventListener('click', onPopupCloseClick);
     document.querySelector('.map__filters-container').appendChild(card);
   };
 
@@ -144,14 +146,11 @@
   };
 
   var onPopupKeydown = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removePopup();
       document.removeEventListener('keydown', onPopupKeydown);
     }
   };
-
-  document.addEventListener('keydown', onPopupKeydown);
-  document.addEventListener('click', onPopupCloseClick);
 
   window.map = {
     map: map,

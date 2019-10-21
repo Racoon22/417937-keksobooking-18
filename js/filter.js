@@ -26,7 +26,7 @@
   var updatePins = function () {
     window.map.removePopup();
     window.map.removePins();
-    window.map.renderPinElements(filterAds(window.ads));
+    window.map.renderPinElements(filterAds(window.map.ads));
   };
 
   var filterAds = function (ads) {
@@ -69,12 +69,13 @@
 
   var filterByFeatures = function (features) {
     var featuresFilters = document.querySelectorAll('.map__checkbox:checked');
-    for (var i = 0; i < featuresFilters.length; i++) {
-      if (features.indexOf(featuresFilters[i].value) < 0) {
-        return false;
+    var hasFeatures = true;
+    featuresFilters.forEach(function (it) {
+      if (features.indexOf(it.value) < 0) {
+        hasFeatures = false;
       }
-    }
-    return true;
+    });
+    return hasFeatures;
   };
 
   filterElement.addEventListener('change', function () {

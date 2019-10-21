@@ -15,7 +15,7 @@
   var mainPin = document.querySelector('.map__pin--main');
   var mapWidth = document.querySelector('.map').offsetWidth;
 
-  window.isPageActive = false;
+  var isActive = false;
 
   var mainElement = document.querySelector('main');
 
@@ -27,7 +27,7 @@
   };
 
   var onSuccessPopupKeydown = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeSuccessPopup();
     }
     document.removeEventListener('keydown', onSuccessPopupKeydown);
@@ -50,7 +50,7 @@
   };
 
   var onErrorPopupKeydown = function (evt) {
-    if (evt.keyCode === window.ESC_KEYCODE) {
+    if (evt.keyCode === window.utils.ESC_KEYCODE) {
       removeErrorPopup();
     }
   };
@@ -71,6 +71,7 @@
     successElement.addEventListener('click', onSuccessPopupClick);
     mainElement.insertBefore(successElement, mainElement.firstChild);
     deactivate();
+    isActive = false;
   };
 
   var showError = function (message) {
@@ -115,7 +116,7 @@
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = false;
     adAddress.value = getAddress();
-    window.isPageActive = true;
+    isActive = true;
   };
 
   var deactivate = function () {
@@ -140,11 +141,11 @@
     adForm.reset();
     setPinBaseCoordinates();
     adAddress.value = getAddress();
-    window.isPageActive = false;
+    isActive = false;
   };
 
   mainPin.addEventListener('mousedown', function (evt) {
-    if (!window.isPageActive) {
+    if (!isActive) {
       activate();
     }
     var startCoords = {
@@ -166,7 +167,7 @@
       };
 
       var offsetX;
-      if (mainPin.offsetLeft - shift.x - MAIN_PIN_WIDTH / 2 <= MIX_PIN_X) {
+      if (mainPin.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2 <= MIX_PIN_X) {
         offsetX = MIX_PIN_X - MAIN_PIN_WIDTH / 2;
       } else if (mainPin.offsetLeft - shift.x + MAIN_PIN_WIDTH / 2 > mapWidth) {
         offsetX = mapWidth - MAIN_PIN_WIDTH / 2;
@@ -212,7 +213,7 @@
 
   mainPin.addEventListener('keydown', function (evt) {
     if (evt.keyCode === 13) {
-      if (!window.isPageActive) {
+      if (!isActive) {
         activate();
       }
       window.map.removePins();
@@ -229,6 +230,7 @@
 
   window.page = {
     adAddress: adAddress,
+    isActive: isActive,
     showError: showError,
     showSuccess: showSuccess,
     activate: activate,
