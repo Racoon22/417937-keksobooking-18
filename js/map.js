@@ -24,6 +24,22 @@
   var pinElement = document.querySelector('#pin').content.querySelector('.map__pin');
   var cardElement = document.querySelector('#card').content.querySelector('.map__card');
 
+  var prepareGuestsString = function (number) {
+    return (number === 1 || number !== 11 && number % 10 === 1) ? number + ' гостя' : number + ' гостей';
+  };
+
+  var prepareRoomsString = function (number) {
+    if (number === 1 || number !== 11 && number % 10 === 1) {
+      return number + ' комната';
+    }
+    var numberRooms = [2, 3, 4];
+    var numberRoomsExceptions = [12, 13, 14];
+    if (numberRooms.includes(number) || numberRooms.includes(number % 10) && !numberRoomsExceptions.includes(number)) {
+      return number + ' комнаты';
+    }
+    return number + ' комнат';
+  };
+
   var removePins = function () {
     var pinsButtons = document.querySelectorAll('.map__pin[type=button]');
     pinsButtons.forEach(function (it) {
@@ -100,7 +116,7 @@
       card.querySelector('.popup__type').textContent = AD_TYPES[ad.offer.type].name;
     }
     if (ad.offer.rooms && ad.offer.guests) {
-      card.querySelector('.popup__text--capacity').textContent = window.utils.roomsMacros(ad.offer.rooms) + ' для ' + window.utils.guestsMacros(ad.offer.guests);
+      card.querySelector('.popup__text--capacity').textContent = prepareRoomsString(ad.offer.rooms) + ' для ' + prepareGuestsString(ad.offer.guests);
     }
     if (ad.offer.checkin && ad.offer.checkin) {
       card.querySelector('.popup__text--time').textContent = 'Заезд ' + ad.offer.checkin + ' выезд до ' + ad.offer.checkout;
