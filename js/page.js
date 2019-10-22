@@ -203,9 +203,12 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-      window.map.removePins();
-      window.map.removePopup();
-      window.backend.load(window.map.generatePins, showError);
+
+      if (!window.map.ads) {
+        window.backend.load(window.map.generatePins, showError);
+      } else {
+        window.map.generatePins(window.map.ads);
+      }
     };
 
     document.addEventListener('mousemove', onMouseMove);

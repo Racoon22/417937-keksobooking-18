@@ -84,6 +84,7 @@
 
   type.addEventListener('change', function () {
     price.setAttribute('placeholder', window.map.AD_TYPES[type.value].minPrice);
+    price.setAttribute('min', window.map.AD_TYPES[type.value].minPrice);
   });
 
   rooms.addEventListener('change', function () {
