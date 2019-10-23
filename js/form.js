@@ -69,12 +69,8 @@
   });
 
   images.addEventListener('change', function () {
-    var preview;
-    if (adPreview.querySelector('img')) {
-      var adPhoto = adPreview.cloneNode(true);
-      preview = adPhoto.querySelector('img');
-      adPhotos.appendChild(adPhoto);
-    } else {
+    var preview = adPreview.querySelector('img');
+    if (!preview) {
       preview = document.createElement('img');
       preview.style.width = '100%';
       adPreview.appendChild(preview);
