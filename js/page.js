@@ -234,7 +234,6 @@
 
   window.page = {
     adAddress: adAddress,
-    isActive: isActive,
     showError: showError,
     showSuccess: showSuccess,
     activate: activate,

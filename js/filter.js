@@ -78,9 +78,7 @@
     return hasFeatures;
   };
 
-  filterElement.addEventListener('change', function () {
-    window.utils.debounce(updatePins);
-  });
+  filterElement.addEventListener('change', window.utils.debounce(updatePins));
 
   window.filterAds = filterAds;
 })();
