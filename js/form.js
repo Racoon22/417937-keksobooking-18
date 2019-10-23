@@ -23,7 +23,6 @@
   };
 
   var adForm = document.querySelector('.ad-form');
-  var adPhotos = document.querySelector('.ad-form__photo-container');
   var avatarPreview = adForm.querySelector('.ad-form-header__preview img');
   var adPreview = adForm.querySelector('.ad-form__photo');
   var avatar = adForm.querySelector('#avatar');
