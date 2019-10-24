@@ -145,6 +145,14 @@
     isActive = false;
   };
 
+  var showPins = function () {
+    if (!window.map.ads) {
+      window.backend.load(window.map.generatePins, showError);
+    } else {
+      window.map.generatePins(window.map.ads);
+    }
+  };
+
   mainPin.addEventListener('mousedown', function (evt) {
     if (!isActive) {
       activate();
@@ -203,14 +211,9 @@
         };
         mainPin.addEventListener('click', onClickPreventDefault);
       }
-
-      if (!window.map.ads) {
-        window.backend.load(window.map.generatePins, showError);
-      } else {
-        window.map.generatePins(window.map.ads);
-      }
     };
 
+    showPins();
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
   });
@@ -220,9 +223,7 @@
       if (!isActive) {
         activate();
       }
-      window.map.removePins();
-      window.map.removePopup();
-      window.backend.load(window.map.generatePins, showError);
+      showPins();
     }
   });
 
@@ -234,6 +235,7 @@
 
   window.page = {
     adAddress: adAddress,
+    isActive: isActive,
     showError: showError,
     showSuccess: showSuccess,
     activate: activate,
