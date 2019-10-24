@@ -11,6 +11,7 @@
 
   var map = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
+  var reset = adForm.querySelector('.ad-form__reset');
   var adAddress = adForm.querySelector('#address');
   var filterForm = document.querySelector('.map__filters');
   var mainPin = document.querySelector('.map__pin--main');
@@ -138,8 +139,12 @@
 
     var featuresElement = filterForm.querySelector('.map__features');
     featuresElement.disabled = true;
+
     window.map.removePins();
+    window.map.removePopup();
     adForm.reset();
+    filterForm.reset();
+    window.form.resetPreview();
     setPinBaseCoordinates();
     adAddress.value = getAddress();
     isActive = false;
@@ -227,10 +232,9 @@
     }
   });
 
-  adForm.addEventListener('reset', function () {
+  reset.addEventListener('click', function (evt) {
+    evt.preventDefault();
     deactivate();
-    filterForm.reset();
-    window.form.resetPreview();
   });
 
   window.page = {

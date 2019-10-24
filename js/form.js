@@ -141,7 +141,6 @@
     validatePrice();
     if (adForm.checkValidity()) {
       window.backend.save(new FormData(adForm), window.page.showSuccess, window.page.showError);
-      resetPreview();
     }
     adForm.reportValidity();
   });
