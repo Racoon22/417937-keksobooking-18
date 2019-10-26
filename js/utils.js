@@ -22,5 +22,4 @@
     ESC_KEYCODE: ESC_KEYCODE,
     debounce: debounce
   };
-
 })();
